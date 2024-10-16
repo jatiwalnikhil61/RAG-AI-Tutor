@@ -1,51 +1,56 @@
-# AI English Tutor with RAG (Powered by Groq)
+# AI English Tutor
 
-This repository contains an AI-based English teaching application that utilizes Retrieval-Augmented Generation (RAG) to generate engaging and personalized lessons on various topics. The system leverages **Groq's large language models** and **Sentence Transformers** to retrieve relevant information from a custom-built knowledge base and dynamically create lessons based on user queries. The app is built using **Streamlit** for an easy-to-use web interface.
+This repository contains two implementations of an AI-powered English tutoring system designed to generate engaging lessons based on various topics. The primary goal is to demonstrate different approaches to retrieving information, tokenizing text, and generating lessons using AI models.
 
-### Key Features
-- **Knowledge Base Creation**: Add content to the knowledge base by uploading PDFs or manually entering text. The content is indexed using the Sentence Transformer model `all-MiniLM-L6-v2` and stored using FAISS for efficient retrieval.
-- **Retrieval-Augmented Generation (RAG)**: The system retrieves relevant content from the knowledge base and generates lessons on requested topics using Groq's large language models (e.g., `mixtral-8x7b-32768`).
-- **PDF Output**: Generated lessons can be saved as PDF files for offline use, offering a convenient way to retain and share the content.
-- **Topic-Based Learning**: Users can enter a topic, and the system will create an engaging lesson by combining retrieved knowledge and AI-generated content.
+## Repository Overview
 
-### Prerequisites
-- Python 3.8+
-- Required Python libraries:
-  - `streamlit`
-  - `fpdf`
-  - `faiss`
-  - `PyPDF2`
-  - `sentence-transformers`
-  - `groq`
-  - `python-dotenv`
+The repository provides two distinct approaches for building an AI-based English tutor:
 
-### How to Use
+1. **AI_Tutor.ipynb** – A straightforward implementation that generates English lessons without the use of a vector database or advanced tokenization techniques. This notebook uses basic methods for text processing and retrieval to create lessons based on predefined content.
+   
+2. **AI_Tutor_VDB.ipynb** – An enhanced version that integrates a vector database (ChromaDB) for efficient retrieval of relevant content and uses NLTK for advanced sentence tokenization. This version demonstrates how to handle large corpora and generate lessons by extracting content using advanced retrieval mechanisms.
 
-1. **Setup Environment**: Clone the repository and install the required dependencies:
-    ```bash
-    pip install -r requirements.txt
-    ```
+### Key Differences
 
-2. **Set Up API Key**: Create a `.env` file in the root directory and add your Groq API key:
-    ```env
-    api_key=your_groq_api_key
-    ```
+- **Vector Database**: The `AI_Tutor_VDB.ipynb` implementation utilizes ChromaDB for storing and retrieving content. This allows for efficient querying and retrieval of relevant content for lesson generation.
+  
+- **Text Tokenization**: `AI_Tutor_VDB.ipynb` employs NLTK’s `sent_tokenize` function for sophisticated sentence splitting and chunking, ensuring that the retrieved content is processed and broken down properly. In contrast, `AI_Tutor.ipynb` uses simpler methods for handling text processing.
+  
+- **AI Lesson Generation**: Both implementations use an AI model for generating lessons, but the retrieval mechanism and content processing pipeline differ significantly, with the VDB version showcasing more robust retrieval through vector databases and tokenization.
 
-3. **Run the Application**: Start the Streamlit app by running:
-    ```bash
-    streamlit run app.py
-    ```
+## Files
 
-4. **Add Content**: 
-   - Upload a PDF file or manually enter text to populate the knowledge base.
-   - Once added, the content will be indexed for future retrieval.
+- **`AI_Tutor.ipynb`**: A simpler version of the AI tutor without a vector database or NLTK-based text processing.
+- **`AI_Tutor_VDB.ipynb`**: A more advanced version that utilizes a vector database and NLTK for efficient content retrieval and processing.
 
-5. **Generate Lessons**: Enter an English topic and let the AI generate a tailored lesson. You can also save the lesson as a PDF for later use.
+## Setup and Requirements
 
-### Example Workflow
-- Upload a PDF document to add relevant text to the knowledge base.
-- Enter a topic, such as "Present Perfect Tense," and the system will retrieve relevant content and generate a lesson based on the stored knowledge and AI model.
-- Save the lesson as a PDF for distribution or offline review.
+To run these notebooks, you will need to install the following dependencies, along with other dependencies used in the code:
 
+```bash
+pip install chromadb
+pip install sentence-transformers
+pip install nltk
+pip install fpdf
+pip install torch
+```
 
-Enjoy teaching and learning with the AI English Tutor!
+Additionally, for `AI_Tutor_VDB.ipynb`, ensure you download the necessary NLTK tokenizers:
+
+```bash
+import nltk
+nltk.download('punkt_tab')
+```
+
+## Usage
+
+### Running the Simple AI Tutor (`AI_Tutor.ipynb`)
+
+This notebook provides a basic implementation of lesson generation without relying on external databases for retrieval. Simply run the notebook cells and input the desired topic for lesson creation.
+
+### Running the Vector Database AI Tutor (`AI_Tutor_VDB.ipynb`)
+
+This version makes use of a vector database to retrieve relevant information efficiently. Follow these steps:
+
+1. Add content to the vector database using the `add_content_to_vector_db` function or upload content from PDF files.
+2. Generate a lesson by specifying a topic, and the model will retrieve relevant content and create an engaging lesson.
